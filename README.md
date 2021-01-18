@@ -18,9 +18,9 @@ npm install
 
 **npm start**  Starts the server.
 
-**npm run dev**  Starts the in development mode.
+**npm run dev**  Starts the server in development mode.
 
-**npm lint**  Runs the linter the find errors.
+**npm lint**  Runs the linter to find errors.
 
 **npm format**  Runs the formatter to make the code pretty.
 
