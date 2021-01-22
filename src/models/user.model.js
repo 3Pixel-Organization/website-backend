@@ -19,7 +19,13 @@ const schema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+    },
+    oauth: {
+      discord: {
+        type: String,
+        unique: true,
+        index: true,
+      },
     },
     roles: {
       type: [Schema.Types.ObjectId],
