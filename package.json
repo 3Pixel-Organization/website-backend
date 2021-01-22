@@ -24,6 +24,8 @@
     "mongoose": "^5.11.12",
     "morgan": "^1.10.0",
     "node-cache": "^5.1.2",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.4",
     "ponaserv": "^0.2.0",
     "slugify": "^1.4.6",
     "tinv": "^1.0.1",

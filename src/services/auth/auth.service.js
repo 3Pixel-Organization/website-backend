@@ -7,17 +7,17 @@ const jwt = require('jsonwebtoken');
 const log = require('consola');
 const { promisify } = require('util');
 
-const { JWT_TOKEN_SECRET, JWT_REFRESH_SECRET, ERRORS } = require('../config');
-const User = require('../models/user.model');
-const Session = require('../models/session.model');
-const auth = require('../middleware/jwt');
+const { JWT_TOKEN_SECRET, JWT_REFRESH_SECRET, ERRORS } = require('../../config');
+const User = require('../../models/user.model');
+const Session = require('../../models/session.model');
+const auth = require('../../middleware/jwt');
 
 module.exports = {
   name: 'auth',
   routes: {
     'GET /auth/me': 'me',
     'POST /auth/login': 'postLogin',
-    'POST /auth/register': 'postRegister',
+    // 'POST /auth/register': 'postRegister',
     'POST /auth/token': 'refreshToken',
     'POST /auth/logout': 'logout',
   },
