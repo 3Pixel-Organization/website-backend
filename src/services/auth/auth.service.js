@@ -42,7 +42,9 @@ module.exports = {
         const token = await this.generateAccessToken(payload.sub);
         res.send({ token });
       } catch (err) {
-        log.error(err);
+        if (!err.message.startsWith('jwt')) {
+          log.error(err);
+        }
         res.status(403).send(ERRORS.AUTH.INVALID_TOKEN);
       }
     },

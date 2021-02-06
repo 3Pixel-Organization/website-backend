@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const { JWT_TOKEN_SECRET, ERRORS } = require('../config');
 const User = require('../models/user.model');
+const Role = require('../models/role.model');
+const Permission = require('../models/permission.model');
 const Session = require('../models/session.model');
 
 module.exports = (opts) => async (req, res, next) => {
@@ -17,7 +19,10 @@ module.exports = (opts) => async (req, res, next) => {
       return res.status(403).send(ERRORS.AUTH.INVALID_TOKEN);
     }
 
-    const user = await User.findById(payload.sub).populate({ path: 'roles', populate: 'permissions' });
+    const user = await User.findById(payload.sub).populate({
+      path: 'roles',
+      populate: 'permissions',
+    });
     req.user = user.safe();
   } catch (err) {
     if (!err.message.startsWith('jwt')) {

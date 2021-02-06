@@ -6,7 +6,10 @@ const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT;
 const JWT_TOKEN_SECRET = process.env.JWT_TOKEN_SECRET;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
-const FRONTEND_URL = 'https://3pixel.netlify.app/#';
+const FRONTEND_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://3pixel.netlify.app/#'
+    : 'http://localhost:3333/#';
 // const SENDGRID_SIGN_KEY = process.env.SENDGRID_SIGN_KEY;
 
 const ERRORS = {
