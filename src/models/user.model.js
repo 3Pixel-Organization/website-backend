@@ -27,10 +27,10 @@ const schema = new Schema(
         index: true,
       },
     },
-    roles: {
-      type: [Schema.Types.ObjectId],
+    roles: [{
+      type: Schema.Types.ObjectId,
       ref: 'role',
-    },
+    }],
   },
   { timestamps: true },
 );

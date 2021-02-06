@@ -10,11 +10,8 @@ const schema = new Schema(
     permissions: {
       type: [
         {
-          permission: {
-            type: [Schema.Types.ObjectId],
-            ref: 'permission',
-          },
-          scope: Object,
+          type: Schema.Types.ObjectId,
+          ref: 'permission',
         },
       ],
     },

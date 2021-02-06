@@ -15,10 +15,10 @@ module.exports = {
         id: 'string',
         $$strict: true,
       },
-      async handler({ req, res, params }) {
+      async handler({ res, params }) {
         let user;
         try {
-          user = await User.findById(params.id).exec();
+          user = await User.findById(params.id).select(['-oauth']).exec();
         } catch (err) {
           if (err instanceof E.CastError) {
             return res.status(404).send(ERRORS.NOT_FOUND);

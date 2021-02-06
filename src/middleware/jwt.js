@@ -17,7 +17,7 @@ module.exports = (opts) => async (req, res, next) => {
       return res.status(403).send(ERRORS.AUTH.INVALID_TOKEN);
     }
 
-    const user = await User.findById(payload.sub);
+    const user = await User.findById(payload.sub).populate({ path: 'roles', populate: 'permissions' });
     req.user = user.safe();
   } catch (err) {
     if (!err.message.startsWith('jwt')) {
