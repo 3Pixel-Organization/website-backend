@@ -18,4 +18,8 @@ const schema = new Schema(
   { timestamps: true },
 );
 
+schema.methods.fullName = function fullName() {
+  return this.module + '.' + this.capability;
+};
+
 module.exports = model('permission', schema);
