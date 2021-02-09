@@ -12,16 +12,16 @@ const auth = require('../../middleware/jwt');
 const Post = require('../../models/post.model');
 
 module.exports = {
-  name: 'posts',
+  name: 'news',
   routes: {
-    'GET /posts': 'getPosts',
-    'GET /posts/tags': 'getTags',
-    'GET /posts/:slug': 'getPost',
-    'POST /posts/:slug/like': 'likePost',
-    'POST /posts': 'createPost',
-    'PATCH /posts/:slug': 'editPost',
-    'PUT /posts/:slug': 'editPost',
-    'DELETE /posts/:id': 'deletePost',
+    'GET /news': 'getPosts',
+    'GET /news/tags': 'getTags',
+    'GET /news/:slug': 'getPost',
+    'POST /news/:slug/like': 'likePost',
+    'POST /news': 'createPost',
+    'PATCH /news/:slug': 'editPost',
+    'PUT /news/:slug': 'editPost',
+    'DELETE /news/:id': 'deletePost',
   },
   actions: {
     getPosts: {
@@ -30,7 +30,7 @@ module.exports = {
         offset: { type: 'number', convert: true, default: 0, optional: true },
         $$strict: true,
       },
-      async handler({ req, res, params }) {
+      async handler({ res, params }) {
         let posts;
         try {
           posts = await this.getAllPosts(params);
