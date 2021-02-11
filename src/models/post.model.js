@@ -16,9 +16,19 @@ const schema = new Schema(
       maxlength: 128,
     },
     content: {
-      type: String,
+      type: [
+        {
+          type: {
+            type: String,
+            maxlength: 255,
+          },
+          data: {
+            type: String,
+            maxlength: 1000000,
+          },
+        },
+      ],
       required: true,
-      minlength: 3,
     },
     description: {
       type: String,
