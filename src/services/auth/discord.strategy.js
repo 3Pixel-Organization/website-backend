@@ -14,6 +14,9 @@ passport.use(
       scope: ['identify', 'email'],
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log('profile', profile);
+      const avatarURL = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png?size=512`;
+
       let user;
       try {
         user = await User.findOne({ 'oauth.discord': profile.id });
@@ -22,8 +25,14 @@ passport.use(
             email: profile.email,
             username: profile.username,
             password: null,
+            avatar: avatarURL,
             oauth: { discord: profile.id },
           });
+          await user.save();
+        }
+
+        if (user.avatar !== avatarURL) {
+          user.avatar = avatarURL;
           await user.save();
         }
       } catch (err) {
@@ -32,7 +41,6 @@ passport.use(
         return;
       }
 
-      log.info(profile);
       const userSession = await createSession(user);
       done(null, {
         tokens: {
