@@ -67,10 +67,7 @@ module.exports = {
 
         if (!viewsCache.get(`${req.ip}-${params.slug}`)) {
           try {
-            await Post.updateOne(
-              { _id: post._id },
-              { $inc: { 'meta.views': 1 } },
-            ).exec();
+            await Post.updateOne({ _id: post._id }, { $inc: { 'meta.views': 1 } }).exec();
             // eslint-disable-next-line no-empty
           } catch {}
 
@@ -110,11 +107,20 @@ module.exports = {
     },
     createPost: {
       middleware: [express.json(), auth({ required: true })],
+      // middleware: [express.json()],
       params: {
         title: { type: 'string', min: 3, max: 128 },
-        content: { type: 'string', min: 3 },
+        content: {
+          type: 'array',
+          items: {
+            type: 'object',
+            props: { type: { type: 'string', max: 255 }, data: 'string' },
+          },
+        },
         description: { type: 'string', min: 3, max: 280 },
         tags: { type: 'array', items: 'string', optional: true },
+        isDevlog: { type: 'boolean', default: false },
+        isPublic: { type: 'boolean', default: true },
         $$strict: true,
       },
       async handler({ req, res, params }) {
@@ -239,19 +245,13 @@ module.exports = {
   },
   methods: {
     getAllPosts({ limit, offset }) {
-      return Post.find({})
-        .limit(Number(limit))
-        .skip(Number(offset))
-        .sort({ createdAt: -1 })
-        .exec();
+      return Post.find({}).limit(Number(limit)).skip(Number(offset)).sort({ createdAt: -1 }).exec();
     },
     getPostById(id) {
       return Post.findById(id).exec();
     },
     getPostBySlug(slug) {
-      return Post.findOne({ slug })
-        .populate('author', ['_id', 'username', 'email'])
-        .exec();
+      return Post.findOne({ slug }).populate('author', ['_id', 'username', 'email']).exec();
     },
     createSlug(str) {
       const random = '-' + randomBytes(4).toString('hex');

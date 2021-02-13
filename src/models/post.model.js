@@ -49,6 +49,16 @@ const schema = new Schema(
       likes: { type: Number, default: 0 },
       views: { type: Number, default: 0 },
     },
+    isDevlog: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    isPublic: {
+      type: Boolean,
+      default: true,
+      required: false,
+    },
   },
   { timestamps: true },
 );
