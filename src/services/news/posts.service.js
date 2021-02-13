@@ -12,16 +12,16 @@ const auth = require('../../middleware/jwt');
 const Post = require('../../models/post.model');
 
 module.exports = {
-  name: 'posts',
+  name: 'news',
   routes: {
-    'GET /posts': 'getPosts',
-    'GET /posts/tags': 'getTags',
-    'GET /posts/:slug': 'getPost',
-    'POST /posts/:slug/like': 'likePost',
-    'POST /posts': 'createPost',
-    'PATCH /posts/:slug': 'editPost',
-    'PUT /posts/:slug': 'editPost',
-    'DELETE /posts/:id': 'deletePost',
+    'GET /news': 'getPosts',
+    'GET /news/tags': 'getTags',
+    'GET /news/:slug': 'getPost',
+    'POST /news/:slug/like': 'likePost',
+    'POST /news': 'createPost',
+    'PATCH /news/:slug': 'editPost',
+    'PUT /news/:slug': 'editPost',
+    'DELETE /news/:id': 'deletePost',
   },
   actions: {
     getPosts: {
@@ -30,7 +30,7 @@ module.exports = {
         offset: { type: 'number', convert: true, default: 0, optional: true },
         $$strict: true,
       },
-      async handler({ req, res, params }) {
+      async handler({ res, params }) {
         let posts;
         try {
           posts = await this.getAllPosts(params);
@@ -67,10 +67,7 @@ module.exports = {
 
         if (!viewsCache.get(`${req.ip}-${params.slug}`)) {
           try {
-            await Post.updateOne(
-              { _id: post._id },
-              { $inc: { 'meta.views': 1 } },
-            ).exec();
+            await Post.updateOne({ _id: post._id }, { $inc: { 'meta.views': 1 } }).exec();
             // eslint-disable-next-line no-empty
           } catch {}
 
@@ -110,11 +107,20 @@ module.exports = {
     },
     createPost: {
       middleware: [express.json(), auth({ required: true })],
+      // middleware: [express.json()],
       params: {
         title: { type: 'string', min: 3, max: 128 },
-        content: { type: 'string', min: 3 },
+        content: {
+          type: 'array',
+          items: {
+            type: 'object',
+            props: { type: { type: 'string', max: 255 }, data: 'string' },
+          },
+        },
         description: { type: 'string', min: 3, max: 280 },
         tags: { type: 'array', items: 'string', optional: true },
+        isDevlog: { type: 'boolean', default: false },
+        isPublic: { type: 'boolean', default: true },
         $$strict: true,
       },
       async handler({ req, res, params }) {
@@ -239,19 +245,13 @@ module.exports = {
   },
   methods: {
     getAllPosts({ limit, offset }) {
-      return Post.find({})
-        .limit(Number(limit))
-        .skip(Number(offset))
-        .sort({ createdAt: -1 })
-        .exec();
+      return Post.find({}).limit(Number(limit)).skip(Number(offset)).sort({ createdAt: -1 }).exec();
     },
     getPostById(id) {
       return Post.findById(id).exec();
     },
     getPostBySlug(slug) {
-      return Post.findOne({ slug })
-        .populate('author', ['_id', 'username', 'email'])
-        .exec();
+      return Post.findOne({ slug }).populate('author', ['_id', 'username', 'email']).exec();
     },
     createSlug(str) {
       const random = '-' + randomBytes(4).toString('hex');

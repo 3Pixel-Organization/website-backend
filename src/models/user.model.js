@@ -20,6 +20,9 @@ const schema = new Schema(
     password: {
       type: String,
     },
+    avatar: {
+      type: String,
+    },
     oauth: {
       discord: {
         type: String,
@@ -27,10 +30,12 @@ const schema = new Schema(
         index: true,
       },
     },
-    roles: [{
-      type: Schema.Types.ObjectId,
-      ref: 'role',
-    }],
+    roles: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'role',
+      },
+    ],
   },
   { timestamps: true },
 );
