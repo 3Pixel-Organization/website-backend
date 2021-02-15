@@ -61,17 +61,13 @@ module.exports = {
         const user = await User.findOne({ email }).exec();
 
         if (!user) {
-          return res
-            .status(401)
-            .json({ message: 'Invalid email or password.' });
+          return res.status(401).json({ message: 'Invalid email or password.' });
         }
 
         const samePassword = await bcrypt.compare(password, user.password);
 
         if (!samePassword) {
-          return res
-            .status(401)
-            .json({ message: 'Invalid email or password.' });
+          return res.status(401).json({ message: 'Invalid email or password.' });
         }
 
         // JWT
@@ -157,9 +153,7 @@ module.exports = {
         }).exec();
 
         if (emailCount > 0) {
-          return res
-            .status(400)
-            .json({ message: 'This email address is already in use' });
+          return res.status(400).json({ message: 'This email address is already in use' });
         }
 
         const hash = await this.hashPassword(password);
@@ -184,15 +178,10 @@ module.exports = {
     },
     generateAccessToken(userId) {
       return new Promise((resolve, reject) => {
-        jwt.sign(
-          { sub: userId },
-          JWT_TOKEN_SECRET,
-          { expiresIn: 1200 },
-          (err, token) => {
-            if (err) reject(err);
-            resolve(token);
-          },
-        );
+        jwt.sign({ sub: userId }, JWT_TOKEN_SECRET, { expiresIn: 1200 }, (err, token) => {
+          if (err) reject(err);
+          resolve(token);
+        });
       });
     },
   },

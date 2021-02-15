@@ -46,4 +46,17 @@ schema.methods.safe = function safe() {
   return user;
 };
 
+schema.methods.checkForPermission = function checkForPermission(perm) {
+  if (!this.populated('roles')) {
+    throw new Error('Tried to check for permissions but roles field is not populated');
+  }
+  for (const role of this.roles) {
+    for (const permission of role.permissions) {
+      if (perm === permission.module + '.' + permission.capability) {
+        return true;
+      }
+    }
+  }
+};
+
 module.exports = model('user', schema);

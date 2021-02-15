@@ -7,7 +7,7 @@ const Role = require('../models/role.model');
 const Permission = require('../models/permission.model');
 const Session = require('../models/session.model');
 
-module.exports = (opts) => async (req, res, next) => {
+module.exports = ({ required, permissions = [] }) => async (req, res, next) => {
   const token = req.headers['authorization']?.slice(7);
   if (!token) {
     return res.status(401).send(ERRORS.AUTH.NO_TOKEN);
@@ -23,14 +23,19 @@ module.exports = (opts) => async (req, res, next) => {
       path: 'roles',
       populate: 'permissions',
     });
-    req.user = user.safe();
+    req.user = user;
   } catch (err) {
     if (!err.message.startsWith('jwt')) {
       log.error(err);
     }
   }
-  if (opts.required && !req.user) {
+  if (required && !req.user) {
     return res.status(403).send(ERRORS.AUTH.INVALID_TOKEN);
+  }
+  for (const permission of permissions) {
+    if (!req.user.checkForPermission(permission)) {
+      return res.status(403).send(ERRORS.AUTH.UNAUTHORIZED);
+    }
   }
   next();
 };

@@ -7,16 +7,16 @@ const schema = new Schema(
       required: true,
       unique: true,
     },
-    permissions: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'permission',
-        },
-      ],
-    },
+    permissions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'permission',
+      },
+    ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 module.exports = model('role', schema);

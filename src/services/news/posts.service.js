@@ -106,7 +106,7 @@ module.exports = {
       },
     },
     createPost: {
-      middleware: [express.json(), auth({ required: true })],
+      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
       // middleware: [express.json()],
       params: {
         title: { type: 'string', min: 3, max: 128 },
@@ -147,7 +147,7 @@ module.exports = {
       },
     },
     deletePost: {
-      middleware: [express.json(), auth({ required: true })],
+      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
       params: {
         id: 'string',
         $$strict: true,
@@ -182,7 +182,7 @@ module.exports = {
       },
     },
     editPost: {
-      middleware: [express.json(), auth({ required: true })],
+      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
       params: {
         slug: 'string',
         title: { type: 'string', min: 3, max: 128, optional: true },
