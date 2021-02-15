@@ -32,7 +32,10 @@ module.exports = {
   },
   actions: {
     listPermissions: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.permission.read'] }),
+      ],
       params: {
         module: { type: 'string', min: 1, optional: true },
         $$strict: true,
@@ -52,7 +55,10 @@ module.exports = {
       },
     },
     getPermission: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.permission.read'] }),
+      ],
       params: {
         id: 'string',
         $$strict: true,
@@ -77,7 +83,10 @@ module.exports = {
       },
     },
     createPermission: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.permission.write'] }),
+      ],
       params: {
         module: { type: 'string', min: 3, max: 128 },
         capability: { type: 'string', min: 3, max: 128 },
@@ -98,7 +107,10 @@ module.exports = {
       },
     },
     deletePermission: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.permission.write'] }),
+      ],
       params: {
         id: 'string',
         $$strict: true,
@@ -129,7 +141,10 @@ module.exports = {
       },
     },
     updatePermission: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.permission.write'] }),
+      ],
       params: {
         id: 'string',
         module: { type: 'string', min: 3, max: 128 },
@@ -165,7 +180,10 @@ module.exports = {
       },
     },
     listRoles: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.role.read'] }),
+      ],
       params: {
         module: { type: 'string', min: 1, optional: true },
         $$strict: true,
@@ -185,7 +203,10 @@ module.exports = {
       },
     },
     getRole: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.role.read'] }),
+      ],
       params: {
         id: 'string',
         $$strict: true,
@@ -210,7 +231,10 @@ module.exports = {
       },
     },
     createRole: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.role.write'] }),
+      ],
       params: {
         name: { type: 'string', min: 3, max: 128 },
         permissions: { type: 'array', items: { type: 'string', length: 24 }, optional: true },
@@ -262,7 +286,10 @@ module.exports = {
       },
     },
     updateRole: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.role.write'] }),
+      ],
       params: {
         id: 'string',
         name: { type: 'string', min: 3, max: 128 },
@@ -298,7 +325,10 @@ module.exports = {
       },
     },
     assignPermissionToRole: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.permission.assign'] }),
+      ],
       params: {
         permissionId: { type: 'string', length: 24 },
         roleId: { type: 'string', length: 24 },
@@ -338,7 +368,10 @@ module.exports = {
       },
     },
     removePermissionFromRole: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.permission.assign'] }),
+      ],
       params: {
         permissionId: { type: 'string', length: 24 },
         roleId: { type: 'string', length: 24 },
@@ -374,7 +407,10 @@ module.exports = {
       },
     },
     assignRoleToUser: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.role.assign'] }),
+      ],
       params: {
         userId: { type: 'string', length: 24 },
         roleId: { type: 'string', length: 24 },
@@ -414,7 +450,10 @@ module.exports = {
       },
     },
     removeRoleFromUser: {
-      middleware: [express.json(), auth({ required: true, permissions: ['3pixel.news.write'] })],
+      middleware: [
+        express.json(),
+        auth({ required: true, permissions: ['3pixel.access.role.assign'] }),
+      ],
       params: {
         userId: { type: 'string', length: 24 },
         roleId: { type: 'string', length: 24 },
